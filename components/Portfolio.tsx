@@ -1,316 +1,283 @@
 "use client";
 
-import { useState } from "react";
-import { useRef } from "react";
-import { motion, AnimatePresence, useInView } from "framer-motion";
+import { useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { Calendar, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
-import { X, ZoomIn } from "lucide-react";
 
-const categories = [
-  { slug: "all", label: "All" },
-  { slug: "logo_creation", label: "Logo Creation" },
-  { slug: "creatives", label: "Creatives" },
-  { slug: "booklets", label: "Booklets" },
-  { slug: "newsletters", label: "Newsletters" },
-  { slug: "brochure", label: "Brochure" },
-  { slug: "websites", label: "Websites" },
-  { slug: "case-studies", label: "Case Studies" },
+const events = [
+  {
+    id: 1,
+    title: "Bharat Trilogy Summit 2025",
+    tag: "Strategic Identity & Curation",
+    desc: "Partnered with Etherwire.AI for the Mumbai summit based on the philosophy 'Viksit Bharat with Values'. We translated the Wisdom, Wealth, and Vision trilogy framework into a soulful experience covering brand identity, on-ground branding, and a landmark millet-based menu curated with Chef Ganesh Joshi.",
+    image: "/event-bharat-trilogy.png",
+    color: "#8B1A1A",
+    stats: [
+      { label: "Philosophy", val: "Viksit Bharat" },
+      { label: "Highlight", val: "Millet Menu" }
+    ],
+    date: "Mumbai, 2025"
+  },
+  {
+    id: 2,
+    title: "TiECon MP 2025 (2.0) / Micro Mitti",
+    tag: "PR, Communications & Event Partner",
+    desc: "Led as the official PR, Communications, and Event Management Partner for Central India's largest entrepreneurial gathering by TiE MP. We curated every moment from strategic storytelling to on-ground execution to elevate Indore's startup ecosystem into the national spotlight.",
+    image: "/event-tiecon-mp.png",
+    color: "#8B1A1A",
+    stats: [
+      { label: "Ecosystem", val: "Central India" },
+      { label: "Service", val: "Full Suite PR" }
+    ],
+    date: "Indore, M.P."
+  },
+  {
+    id: 3,
+    title: "HEV Capital Connect 2026",
+    tag: "Clean Energy Summit",
+    desc: "Proud Event Management Partner for India's biggest clean energy summit. Formulating the end-to-end event experience, design, and execution where clean-tech startups, investors, and industry leaders connect to drive future clean energy impact.",
+    image: "/event-hev-capital.png",
+    color: "#8B1A1A",
+    stats: [
+      { label: "Date", val: "26 June 2026" },
+      { label: "Venue", val: "Sheraton Grand" }
+    ],
+    date: "Sheraton Grand, Indore"
+  },
+  {
+    id: 4,
+    title: "Oud by IDOL Indore Launch",
+    tag: "Premium Brand Launch & Design",
+    desc: "Handled the full PR, communications, and event designing/curation for the entry of Dubai's premium perfume brand into Indore. Featuring legendary actor Suniel Shetty as the Guest of Honour/Mentor for a high-profile launch experience.",
+    image: "/event-oud-idol.png",
+    color: "#8B1A1A",
+    stats: [
+      { label: "Guest of Honour", val: "Suniel Shetty" },
+      { label: "Brand Origin", val: "Dubai Premium" }
+    ],
+    date: "Indore, M.P."
+  }
 ];
 
-const portfolio = [
-  {
-    caption: "Logo Creation",
-    category: "logo_creation",
-    img: "/work/341-384x263.jpg",
-    tag: "Brand Identity",
-    description: "Crafting distinctive logos and visual identities that define and differentiate brands across markets.",
-  },
-  {
-    caption: "E-mailers",
-    category: "creatives",
-    img: "/work/342-384x263.jpg",
-    tag: "Creatives",
-    description: "Engaging email creatives designed to cut through the inbox clutter and drive meaningful action.",
-  },
-  {
-    caption: "Posters",
-    category: "creatives",
-    img: "/work/343-384x263.jpg",
-    tag: "Creatives",
-    description: "High-impact poster designs for campaigns, events, and brand awareness across print and digital formats.",
-  },
-  {
-    caption: "Standees",
-    category: "creatives",
-    img: "/work/344-384x263.jpg",
-    tag: "Creatives",
-    description: "Eye-catching standee designs for exhibitions, trade shows, and in-store brand presence.",
-  },
-  {
-    caption: "Stationery",
-    category: "creatives",
-    img: "/work/stationery-16-10-003.jpg",
-    tag: "Creatives",
-    description: "Premium corporate stationery sets — letterheads, business cards, envelopes — designed for lasting impressions.",
-  },
-  {
-    caption: "Packaging",
-    category: "creatives",
-    img: "/work/345-384x263.jpg",
-    tag: "Creatives",
-    description: "Innovative packaging designs that make products stand out on the shelf and tell a compelling brand story.",
-  },
-  {
-    caption: "Corporate AV",
-    category: "creatives",
-    img: "/work/corporateav-16-10-2010.jpg",
-    tag: "Creatives",
-    description: "Corporate audio-visual presentations and brand films that communicate strategy, culture, and vision with impact.",
-  },
-  {
-    caption: "PR – Media Coverage",
-    category: "creatives",
-    img: "/work/media-17-10-001.jpg",
-    tag: "Public Relations",
-    description: "Strategic PR campaigns delivering measurable media coverage and thought leadership positioning for clients.",
-  },
-  {
-    caption: "Newsletters",
-    category: "newsletters",
-    img: "/work/newsletters-16-10-006.jpg",
-    tag: "Newsletters",
-    description: "Visually rich newsletters keeping stakeholders informed, engaged, and connected to the brand journey.",
-  },
-  {
-    caption: "Mass Mailers & Press Advertisements",
-    category: "creatives",
-    img: "/work/massmailers-16-10-008.jpg",
-    tag: "Creatives",
-    description: "Mass mailers and press ad creatives built for broad reach with focused targeting and compelling copy.",
-  },
-  {
-    caption: "Book Covers",
-    category: "creatives",
-    img: "/work/bookcover-16-10-009.jpg",
-    tag: "Creatives",
-    description: "Compelling book cover designs that capture the essence of the content and attract the right readership.",
-  },
-  {
-    caption: "Brochure",
-    category: "brochure",
-    img: "/work/brochure-16-10-004.jpg",
-    tag: "Brochure",
-    description: "Premium sales and corporate brochures that communicate brand value, services, and credibility at a glance.",
-  },
-  {
-    caption: "Booklets",
-    category: "booklets",
-    img: "/work/346-384x263.jpg",
-    tag: "Booklets",
-    description: "Informative and beautifully designed booklets for product launches, annual reports, and brand storytelling.",
-  },
-  {
-    caption: "Websites",
-    category: "websites",
-    img: "/work/website-16-10-002.jpg",
-    tag: "Web & Digital",
-    description: "Responsive, performance-optimised websites delivering seamless experiences across devices for brands and businesses.",
-  },
-  {
-    caption: "Case Studies",
-    category: "case-studies",
-    img: "/work/casestudies16-10-001.jpg",
-    tag: "Case Studies",
-    description: "In-depth case studies showcasing Crenovate's strategic process, challenges solved, and measurable results delivered.",
-  },
-];
-
-function LightboxModal({
-  item,
-  onClose,
-}: {
-  item: (typeof portfolio)[0];
-  onClose: () => void;
-}) {
+function EventCard({ event, i }: { event: typeof events[0]; i: number }) {
+  const [hovered, setHovered] = useState(false);
+  const [imageError, setImageError] = useState(false);
+  
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={onClose}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: i * 0.15, ease: "easeOut" }}
+      className="portfolio-card"
       style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 99998,
-        background: "rgba(5,5,8,0.92)",
-        backdropFilter: "blur(12px)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 24,
+        position: "relative",
+        height: 520,
+        borderRadius: 24,
+        overflow: "hidden",
+        background: "#0d0d15",
+        border: "1px solid rgba(255, 255, 255, 0.05)",
+        boxShadow: hovered ? "0 20px 40px rgba(139, 26, 26, 0.15)" : "0 10px 20px rgba(0, 0, 0, 0.2)",
+        transition: "border-color 0.4s ease, box-shadow 0.4s ease",
+        borderColor: hovered ? "rgba(139, 26, 26, 0.4)" : "rgba(255, 255, 255, 0.05)"
       }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      data-cursor
     >
-      <motion.div
-        initial={{ opacity: 0, scale: 0.88, y: 40 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.88, y: 40 }}
-        transition={{ type: "spring", damping: 26, stiffness: 280 }}
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          background: "#fff",
-          borderRadius: 24,
-          maxWidth: 760,
-          width: "100%",
-          overflow: "hidden",
-          boxShadow: "0 40px 100px rgba(0,0,0,0.5)",
-        }}
-      >
-        {/* Image */}
-        <div style={{ position: "relative", width: "100%", aspectRatio: "16/9", background: "#f0f0f0" }}>
+      {/* Event Image / Fallback Gradient */}
+      <div style={{ position: "absolute", inset: 0, transition: "transform 0.7s cubic-bezier(0.25, 1, 0.5, 1)", transform: hovered ? "scale(1.06)" : "scale(1)" }}>
+        {!imageError && event.image ? (
           <Image
-            src={item.img}
-            alt={item.caption}
+            src={event.image}
+            alt={event.title}
             fill
-            sizes="760px"
-            style={{ objectFit: "cover" }}
+            sizes="(max-width: 768px) 100vw, 50vw"
+            style={{ objectFit: "cover", opacity: hovered ? 0.45 : 0.65, transition: "opacity 0.4s ease" }}
+            onError={() => setImageError(true)}
+            priority={i < 2}
           />
-          <button
-            onClick={onClose}
-            data-cursor
-            style={{
-              position: "absolute",
-              top: 14,
-              right: 14,
-              width: 36,
-              height: 36,
+        ) : (
+          /* Premium Fallback Design */
+          <div style={{
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(135deg, #180808 0%, #2e0811 50%, #0d0d15 100%)",
+            opacity: 0.85,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            gap: 12
+          }}>
+            <div style={{
+              width: 64,
+              height: 64,
               borderRadius: "50%",
-              background: "rgba(0,0,0,0.55)",
-              border: "none",
-              cursor: "none",
+              background: "rgba(139, 26, 26, 0.1)",
+              border: "1px dashed rgba(139, 26, 26, 0.3)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "rgba(139, 26, 26, 0.8)"
+            }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+                <circle cx="9" cy="9" r="2"/>
+                <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+              </svg>
+            </div>
+            <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(255, 255, 255, 0.3)", textTransform: "uppercase", letterSpacing: "0.15em", fontFamily: "var(--font-poppins)" }}>
+              Visual Showcase Coming Soon
+            </span>
+          </div>
+        )}
+
+        {/* Dark radial overlay */}
+        <div style={{
+          position: "absolute",
+          inset: 0,
+          background: "linear-gradient(to bottom, rgba(10, 10, 15, 0.1) 0%, rgba(10, 10, 15, 0.55) 50%, rgba(10, 10, 15, 0.95) 100%)",
+          zIndex: 1
+        }} />
+      </div>
+
+      {/* Grid Pattern overlay */}
+      <div style={{
+        position: "absolute",
+        inset: 0,
+        backgroundImage: "radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px)",
+        backgroundSize: "24px 24px",
+        pointerEvents: "none",
+        zIndex: 2
+      }} />
+
+      {/* Card Content */}
+      <div style={{
+        position: "absolute",
+        inset: 0,
+        zIndex: 3,
+        padding: "40px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        height: "100%"
+      }}>
+        {/* Top Section: Tag and Date */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", gap: 16 }}>
+          <span style={{
+            padding: "6px 16px",
+            borderRadius: 50,
+            fontSize: 11,
+            fontWeight: 700,
+            color: "#fff",
+            background: "rgba(139, 26, 26, 0.85)",
+            backdropFilter: "blur(4px)",
+            letterSpacing: "0.05em",
+            fontFamily: "var(--font-poppins)",
+            border: "1px solid rgba(255, 255, 255, 0.1)",
+            boxShadow: "0 4px 12px rgba(139, 26, 26, 0.15)"
+          }}>
+            {event.tag}
+          </span>
+          <span style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            fontSize: 12,
+            fontWeight: 600,
+            color: "rgba(255, 255, 255, 0.75)",
+            fontFamily: "var(--font-poppins)",
+            background: "rgba(0, 0, 0, 0.4)",
+            padding: "4px 12px",
+            borderRadius: 20,
+            border: "1px solid rgba(255, 255, 255, 0.05)"
+          }}>
+            <Calendar size={12} style={{ color: "var(--brand-red-light)" }} /> {event.date}
+          </span>
+        </div>
+
+        {/* Bottom Section: Title, Desc, and Stats */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div>
+            <h3 style={{
+              fontFamily: "var(--font-montserrat)",
+              fontWeight: 800,
+              fontSize: "clamp(20px, 2.5vw, 24px)",
+              color: "#fff",
+              margin: 0,
+              lineHeight: 1.3,
+              transition: "color 0.3s ease"
+            }}>
+              {event.title}
+            </h3>
+            {/* Short line decoration */}
+            <div style={{
+              width: hovered ? 60 : 30,
+              height: 2,
+              background: "var(--brand-red)",
+              marginTop: 12,
+              transition: "width 0.3s ease"
+            }} />
+          </div>
+
+          <p style={{
+            fontFamily: "var(--font-inter)",
+            fontSize: 14,
+            color: "rgba(255, 255, 255, 0.65)",
+            lineHeight: 1.6,
+            margin: 0,
+            overflow: "hidden",
+            display: "-webkit-box",
+            WebkitLineClamp: 4,
+            WebkitBoxOrient: "vertical"
+          }}>
+            {event.desc}
+          </p>
+
+          {/* Stats & Interactive Button */}
+          <div style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingTop: 20,
+            borderTop: "1px solid rgba(255, 255, 255, 0.08)",
+            marginTop: 8
+          }}>
+            {/* Quick Metrics */}
+            <div style={{ display: "flex", gap: 24 }}>
+              {event.stats.map((s, idx) => (
+                <div key={idx} style={{ display: "flex", flexDirection: "column" }}>
+                  <span style={{ fontSize: 16, fontWeight: 800, color: "#fff", fontFamily: "var(--font-montserrat)" }}>
+                    {s.val}
+                  </span>
+                  <span style={{ fontSize: 10, fontWeight: 600, color: "rgba(255, 255, 255, 0.4)", textTransform: "uppercase", letterSpacing: "0.05em", marginTop: 2, fontFamily: "var(--font-poppins)" }}>
+                    {s.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Action Arrow */}
+            <div style={{
+              width: 44,
+              height: 44,
+              borderRadius: "50%",
+              border: "1px solid rgba(255, 255, 255, 0.15)",
+              background: hovered ? "var(--brand-red)" : "rgba(255, 255, 255, 0.03)",
               color: "#fff",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-            }}
-          >
-            <X size={16} />
-          </button>
-          {/* Category badge */}
-          <span style={{
-            position: "absolute",
-            bottom: 14,
-            left: 14,
-            background: "var(--brand-red)",
-            color: "#fff",
-            fontSize: 11,
-            fontWeight: 700,
-            letterSpacing: "0.12em",
-            textTransform: "uppercase",
-            padding: "5px 12px",
-            borderRadius: 20,
-            fontFamily: "var(--font-poppins)",
-          }}>
-            {item.tag}
-          </span>
+              transition: "all 0.3s cubic-bezier(0.25, 1, 0.5, 1)",
+              transform: hovered ? "rotate(45deg) scale(1.05)" : "none",
+              borderColor: hovered ? "var(--brand-red)" : "rgba(255, 255, 255, 0.15)"
+            }}>
+              <ArrowUpRight size={18} />
+            </div>
+          </div>
         </div>
-        {/* Info */}
-        <div style={{ padding: "28px 32px 32px" }}>
-          <h3 style={{ fontFamily: "var(--font-montserrat)", fontWeight: 900, fontSize: 22, color: "#111", marginBottom: 10 }}>
-            {item.caption}
-          </h3>
-          <p style={{ fontFamily: "var(--font-inter)", fontSize: 15, color: "#6b7280", lineHeight: 1.75, margin: 0 }}>
-            {item.description}
-          </p>
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-}
-
-function PortfolioCard({
-  item,
-  index,
-  onClick,
-}: {
-  item: (typeof portfolio)[0];
-  index: number;
-  onClick: () => void;
-}) {
-  return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.35, delay: index * 0.04 }}
-      onClick={onClick}
-      data-cursor
-      className="portfolio-card"
-      style={{
-        borderRadius: 16,
-        overflow: "hidden",
-        position: "relative",
-        cursor: "none",
-        aspectRatio: "16/10",
-        background: "#111",
-        boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
-      }}
-    >
-      <Image
-        src={item.img}
-        alt={item.caption}
-        fill
-        sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
-        style={{ objectFit: "cover", transition: "transform 0.4s ease" }}
-      />
-      {/* Hover overlay */}
-      <div className="portfolio-overlay">
-        <span style={{
-          fontSize: 10,
-          fontWeight: 700,
-          letterSpacing: "0.2em",
-          textTransform: "uppercase",
-          color: "var(--brand-red)",
-          fontFamily: "var(--font-poppins)",
-          marginBottom: 6,
-        }}>
-          {item.tag}
-        </span>
-        <h3 style={{
-          fontFamily: "var(--font-poppins)",
-          fontWeight: 700,
-          fontSize: 16,
-          color: "#fff",
-          margin: 0,
-        }}>
-          {item.caption}
-        </h3>
-        <div style={{ marginTop: 10, display: "flex", alignItems: "center", gap: 6, color: "rgba(255,255,255,0.6)", fontSize: 12, fontFamily: "var(--font-inter)" }}>
-          <ZoomIn size={13} />
-          <span>Click to view</span>
-        </div>
-      </div>
-
-      {/* Caption label always visible at bottom */}
-      <div style={{
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        padding: "12px 16px",
-        background: "linear-gradient(to top, rgba(5,5,8,0.7), transparent)",
-        pointerEvents: "none",
-      }}>
-        <p style={{
-          fontFamily: "var(--font-poppins)",
-          fontWeight: 600,
-          fontSize: 13,
-          color: "#fff",
-          margin: 0,
-          textShadow: "0 1px 4px rgba(0,0,0,0.5)",
-        }}>
-          {item.caption}
-        </p>
       </div>
     </motion.div>
   );
@@ -319,30 +286,22 @@ function PortfolioCard({
 export default function Portfolio() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [lightboxItem, setLightboxItem] = useState<(typeof portfolio)[0] | null>(null);
-
-  const filtered = activeCategory === "all"
-    ? portfolio
-    : portfolio.filter((p) => p.category === activeCategory);
 
   return (
-    <section
-      id="portfolio"
-      style={{ padding: "120px 0", background: "#0a0a0f", position: "relative", overflow: "hidden", color: "#fff" }}
-    >
-      <div style={{ position: "absolute", top: "15%", left: "20%", width: 500, height: 500, background: "radial-gradient(circle, rgba(139,26,26,0.12), transparent 70%)", pointerEvents: "none" }} />
-      <div className="grid-bg-dark" style={{ position: "absolute", inset: 0, opacity: 0.5 }} />
+    <section id="portfolio" style={{ padding: "120px 0", background: "#0a0a0f", position: "relative", overflow: "hidden", color: "#fff" }}>
+      {/* Decorative Glow Elements */}
+      <div style={{ position: "absolute", top: "15%", right: 0, width: 500, height: 500, background: "radial-gradient(circle, rgba(139,26,26,0.18), transparent 70%)", pointerEvents: "none" }} />
+      <div style={{ position: "absolute", bottom: "15%", left: 0, width: 400, height: 400, background: "radial-gradient(circle, rgba(139,26,26,0.12), transparent 70%)", pointerEvents: "none" }} />
 
-      <div className="container-xl" style={{ position: "relative" }}>
-        {/* Header */}
-        <div ref={ref} style={{ textAlign: "center", marginBottom: 56 }}>
+      <div className="container-xl">
+        {/* Section Header */}
+        <div ref={ref} style={{ textAlign: "center", marginBottom: 70 }}>
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             className="section-label"
           >
-            Our Work
+            Portfolio
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
@@ -350,95 +309,30 @@ export default function Portfolio() {
             transition={{ delay: 0.1 }}
             style={{ fontFamily: "var(--font-montserrat)", fontWeight: 900, fontSize: "clamp(32px, 4vw, 56px)", lineHeight: 1.1, color: "#fff", marginTop: 8 }}
           >
-            Work We <span className="gradient-text">Just Love</span>
+            Major Events <span className="gradient-text">& Conclaves</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ delay: 0.2 }}
-            style={{ color: "rgba(255,255,255,0.55)", fontSize: 16, marginTop: 16, maxWidth: 580, margin: "16px auto 0", fontFamily: "var(--font-inter)", lineHeight: 1.7 }}
+            style={{ color: "rgba(255,255,255,0.65)", fontSize: 17, marginTop: 16, fontFamily: "var(--font-inter)", maxWidth: 640, margin: "16px auto 0" }}
           >
-            Great design works in the real world. Every project has been crafted for real clients to meet real objectives. We deliver powerful solutions to meet expectations — No Sweat, No Blood.
+            An integrated showcase of landmark corporate summits, design expos, and leadership conferences executed with precision.
           </motion.p>
         </div>
 
-        {/* Filter Tabs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.25 }}
-          style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8, marginBottom: 52 }}
-        >
-          {categories.map((cat) => (
-            <button
-              key={cat.slug}
-              onClick={() => setActiveCategory(cat.slug)}
-              data-cursor
-              style={{
-                padding: "9px 20px",
-                borderRadius: 50,
-                border: "1px solid",
-                borderColor: activeCategory === cat.slug ? "var(--brand-red)" : "rgba(255,255,255,0.12)",
-                background: activeCategory === cat.slug ? "var(--brand-red)" : "transparent",
-                color: activeCategory === cat.slug ? "#fff" : "rgba(255,255,255,0.55)",
-                fontSize: 13,
-                fontWeight: 600,
-                fontFamily: "var(--font-poppins)",
-                cursor: "none",
-                transition: "all 0.25s ease",
-                letterSpacing: "0.02em",
-              }}
-            >
-              {cat.label}
-              {cat.slug !== "all" && (
-                <span style={{ marginLeft: 6, fontSize: 10, opacity: 0.7 }}>
-                  ({portfolio.filter(p => p.category === cat.slug).length})
-                </span>
-              )}
-            </button>
+        {/* Structured 2x2 Grid of events */}
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 540px), 1fr))",
+          gap: "40px",
+          width: "100%"
+        }}>
+          {events.map((event, i) => (
+            <EventCard key={event.id} event={event} i={i} />
           ))}
-        </motion.div>
-
-        {/* Grid */}
-        <motion.div
-          layout
-          style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}
-        >
-          <AnimatePresence mode="popLayout">
-            {filtered.map((item, i) => (
-              <PortfolioCard
-                key={item.img}
-                item={item}
-                index={i}
-                onClick={() => setLightboxItem(item)}
-              />
-            ))}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* Work count */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          style={{ textAlign: "center", marginTop: 40 }}
-        >
-          <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 13, fontFamily: "var(--font-inter)" }}>
-            Showing {filtered.length} of {portfolio.length} projects
-          </p>
-        </motion.div>
+        </div>
       </div>
-
-      {/* Lightbox */}
-      <AnimatePresence>
-        {lightboxItem && (
-          <LightboxModal item={lightboxItem} onClose={() => setLightboxItem(null)} />
-        )}
-      </AnimatePresence>
-
-      <style>{`
-        @media (max-width: 1024px) { #portfolio .container-xl > div:nth-child(4) { grid-template-columns: repeat(2, 1fr) !important; } }
-        @media (max-width: 640px) { #portfolio .container-xl > div:nth-child(4) { grid-template-columns: 1fr !important; } }
-      `}</style>
     </section>
   );
 }

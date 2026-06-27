@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { MapPin, Users, Award, Zap } from "lucide-react";
+import Image from "next/image";
 
 function AnimatedCounter({ end, suffix = "" }: { end: number; suffix?: string }) {
   const [count, setCount] = useState(0);
@@ -36,9 +37,40 @@ const pillars = [
   "Branding", "Print", "Digital", "Web", "Social Media", "Advertising", "New Media", "Public Relations",
 ];
 
+const visualStates = [
+  {
+    badge: "",
+    title: "CRENOVATE",
+    subtitle: "Since 2010"
+  },
+  {
+    badge: "10+",
+    title: "Years Experience",
+    subtitle: "ESTABLISHED"
+  },
+  {
+    badge: "100+",
+    title: "Projects Delivered",
+    subtitle: "SUCCESS RATE"
+  },
+  {
+    badge: "4",
+    title: "Global Locations",
+    subtitle: "REACH"
+  }
+];
+
 export default function About() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIdx((prev) => (prev + 1) % 4);
+    }, 3500);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <section id="about" className="section-white" style={{ padding: "120px 0", position: "relative", overflow: "hidden" }}>
@@ -52,42 +84,68 @@ export default function About() {
           {/* Left Visual */}
           <motion.div initial={{ opacity: 0, x: -60 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.8 }}
             style={{ position: "relative" }}>
-            <div style={{ borderRadius: 32, overflow: "hidden", background: "linear-gradient(135deg, #0f0f14, #1a1a22)", aspectRatio: "4/5", maxWidth: 440, position: "relative", boxShadow: "0 40px 80px rgba(139,26,26,0.15)" }}>
+            <div style={{ borderRadius: 32, overflow: "hidden", background: "linear-gradient(135deg, #0f0f14, #1a1a22)", aspectRatio: "4/5", maxWidth: 440, position: "relative", border: "1px solid rgba(255, 255, 255, 0.05)", boxShadow: "0 40px 80px rgba(139,26,26,0.15)" }}>
               <div className="grid-bg-dark" style={{ position: "absolute", inset: 0, opacity: 0.3 }} />
               <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(139,26,26,0.15), rgba(124,58,237,0.05), transparent)" }} />
 
               {/* Center branding element */}
               <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <div style={{ textAlign: "center" }}>
-                  <div style={{ position: "relative", width: 180, height: 180, margin: "0 auto 28px" }}>
-                    <div className="animate-spin-slow" style={{ position: "absolute", inset: 0, border: "2px solid rgba(139,26,26,0.35)", borderRadius: "50%" }} />
-                    <div className="animate-spin-slow-rev" style={{ position: "absolute", inset: 20, border: "1px solid rgba(139,26,26,0.2)", borderRadius: "50%", borderStyle: "dashed" }} />
-                    <div style={{ position: "absolute", inset: 40, background: "linear-gradient(135deg, var(--brand-red), var(--brand-red-dark))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 24px 60px rgba(139,26,26,0.5)" }}>
-                      <span style={{ color: "#fff", fontWeight: 900, fontSize: 28, fontFamily: "var(--font-montserrat)" }}>CR</span>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeIdx}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -15 }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                    style={{ textAlign: "center", width: "100%", padding: "0 24px" }}
+                  >
+                    {/* Spinning Rings and Badge */}
+                    <div style={{ position: "relative", width: 170, height: 170, margin: "0 auto 28px" }}>
+                      <div className="animate-spin-slow" style={{ position: "absolute", inset: 0, border: "2px solid rgba(139,26,26,0.35)", borderRadius: "50%" }} />
+                      <div className="animate-spin-slow-rev" style={{ position: "absolute", inset: 14, border: "1px dashed rgba(255,255,255,0.1)", borderRadius: "50%" }} />
+                      {activeIdx === 0 ? (
+                        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                          <div style={{ position: "relative", width: "85%", height: "45%" }}>
+                            <Image
+                              src="/logo.jpg"
+                              alt="Crenovate Logo"
+                              fill
+                              sizes="150px"
+                              style={{ objectFit: "contain" }}
+                              priority
+                            />
+                          </div>
+                        </div>
+                      ) : (
+                        <div style={{ 
+                          position: "absolute", 
+                          inset: 28, 
+                          background: "linear-gradient(135deg, var(--brand-red), var(--brand-red-dark))", 
+                          borderRadius: "50%", 
+                          display: "flex", 
+                          alignItems: "center", 
+                          justifyContent: "center", 
+                          boxShadow: "0 12px 32px rgba(139, 26, 26, 0.4)", 
+                          overflow: "hidden"
+                        }}>
+                          <span style={{ color: "#fff", fontWeight: 900, fontSize: 36, fontFamily: "var(--font-montserrat)" }}>
+                            {visualStates[activeIdx].badge}
+                          </span>
+                        </div>
+                      )}
                     </div>
-                  </div>
-                  <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 11, letterSpacing: "0.35em", textTransform: "uppercase", fontFamily: "var(--font-poppins)" }}>Est. 2010</p>
-                  <h3 style={{ color: "#fff", fontSize: 22, fontWeight: 900, fontFamily: "var(--font-montserrat)", marginTop: 6 }}>CRENOVATE</h3>
-                  <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, fontFamily: "var(--font-inter)", marginTop: 4 }}>Creating &amp; Innovating Ideas at Work</p>
-                </div>
-              </div>
 
-              {/* Floating badges */}
-              <motion.div animate={{ y: [-5, 5, -5] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="glass-light stat-badge" style={{ top: 24, left: 24 }}>
-                <div style={{ fontFamily: "var(--font-montserrat)", fontWeight: 900, fontSize: 28, color: "var(--brand-red)" }}>14+</div>
-                <div style={{ fontFamily: "var(--font-poppins)", fontSize: 11, color: "#6b7280", marginTop: 2 }}>Years</div>
-              </motion.div>
-              <motion.div animate={{ y: [5, -5, 5] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                className="glass-light stat-badge" style={{ bottom: 40, right: 24 }}>
-                <div style={{ fontFamily: "var(--font-montserrat)", fontWeight: 900, fontSize: 28, color: "#7c3aed" }}>250+</div>
-                <div style={{ fontFamily: "var(--font-poppins)", fontSize: 11, color: "#6b7280", marginTop: 2 }}>Projects</div>
-              </motion.div>
-              <motion.div animate={{ y: [-3, 7, -3] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="glass-light stat-badge" style={{ top: "45%", right: 20, transform: "translateY(-50%)" }}>
-                <div style={{ fontFamily: "var(--font-montserrat)", fontWeight: 900, fontSize: 28, color: "#0891b2" }}>4</div>
-                <div style={{ fontFamily: "var(--font-poppins)", fontSize: 11, color: "#6b7280", marginTop: 2 }}>Offices</div>
-              </motion.div>
+                    {/* Subtitle */}
+                    <p style={{ color: "rgba(255, 255, 255, 0.4)", fontSize: 11, fontWeight: 700, letterSpacing: "0.25em", textTransform: "uppercase", fontFamily: "var(--font-poppins)", margin: 0 }}>
+                      {visualStates[activeIdx].subtitle}
+                    </p>
+
+                    {/* Title */}
+                    <h3 style={{ color: "#fff", fontSize: 26, fontWeight: 900, fontFamily: "var(--font-montserrat)", marginTop: 8, margin: "8px 0 0", lineHeight: 1.25 }}>
+                      {visualStates[activeIdx].title}
+                    </h3>
+                  </motion.div>
+                </AnimatePresence>
             </div>
 
             {/* Location strip */}
