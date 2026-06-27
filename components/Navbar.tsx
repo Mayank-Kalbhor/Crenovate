@@ -48,6 +48,7 @@ export default function Navbar() {
                 src="/logo.jpg"
                 alt="CRENOVATE – Ideas at Work"
                 fill
+                sizes="148px"
                 style={{ objectFit: "contain", objectPosition: "left center", borderRadius: 6 }}
                 priority
               />
@@ -104,7 +105,7 @@ export default function Navbar() {
           >
             {/* Logo in mobile menu */}
             <div style={{ position: "relative", height: 48, width: 160, marginBottom: 8 }}>
-              <Image src="/logo.jpg" alt="CRENOVATE" fill style={{ objectFit: "contain", borderRadius: 6 }} />
+              <Image src="/logo.jpg" alt="CRENOVATE" fill sizes="160px" style={{ objectFit: "contain", borderRadius: 6 }} />
             </div>
 
             {navLinks.map((link, i) => (

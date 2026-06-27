@@ -47,6 +47,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${inter.variable} ${poppins.variable} ${montserrat.variable}`}
       suppressHydrationWarning
     >
