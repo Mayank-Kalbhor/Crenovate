@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -12,9 +12,7 @@ const TransitionContext = createContext<TransitionContextType | null>(null);
 
 export const useTransitionNavigator = () => {
   const context = useContext(TransitionContext);
-  if (!context) {
-    throw new Error("useTransitionNavigator must be used within TransitionProvider");
-  }
+  if (!context) throw new Error("useTransitionNavigator must be used within TransitionProvider");
   return context;
 };
 
@@ -23,36 +21,47 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
   const pathname = usePathname();
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [label, setLabel] = useState("");
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const navigate = (href: string, targetLabel: string) => {
     if (pathname === href) return;
+    // Cancel any previous pending navigation
+    if (timerRef.current) clearTimeout(timerRef.current);
+
     setLabel(targetLabel);
     setIsTransitioning(true);
 
-    // Hold page transition until slide-in & letters animation finishes
-    setTimeout(() => {
+    // Route fires after 550ms — overlay slides in (300ms) + letters appear
+    timerRef.current = setTimeout(() => {
       router.push(href);
-    }, 1000);
+    }, 550);
   };
 
   useEffect(() => {
-    // Once page route completes loading and mounting, slide away the overlay
-    setIsTransitioning(false);
+    // Small delay so page mounts before overlay slides out — feels instant
+    const t = setTimeout(() => setIsTransitioning(false), 80);
+    return () => clearTimeout(t);
   }, [pathname]);
 
-  const uppercaseLabel = label.toUpperCase();
-  const letters = uppercaseLabel.split("");
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
+
+  const letters = label.toUpperCase().split("");
 
   return (
     <TransitionContext.Provider value={{ navigate }}>
       {children}
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         {isTransitioning && (
           <motion.div
-            initial={{ y: "100%", skewY: 4 }}
-            animate={{ y: 0, skewY: 0 }}
-            exit={{ y: "-100%", skewY: -4 }}
-            transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
+            key="transition-overlay"
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "-100%" }}
+            transition={{ duration: 0.32, ease: [0.76, 0, 0.24, 1] }}
             style={{
               position: "fixed",
               inset: 0,
@@ -64,51 +73,47 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
               flexDirection: "column",
             }}
           >
-            {/* Soft background glow */}
-            <div
-              style={{
-                position: "absolute",
-                width: 300,
-                height: 300,
-                borderRadius: "50%",
-                background: "radial-gradient(circle, rgba(139,26,26,0.18) 0%, transparent 70%)",
-                filter: "blur(40px)",
-                pointerEvents: "none",
-              }}
-            />
+            {/* Glow */}
+            <div style={{
+              position: "absolute",
+              width: 280,
+              height: 280,
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(139,26,26,0.22) 0%, transparent 70%)",
+              filter: "blur(36px)",
+              pointerEvents: "none",
+            }} />
 
-            {/* Letter-by-letter stagger animation */}
+            {/* Letters stagger — tight timing */}
             <motion.div
               style={{
                 display: "flex",
-                gap: 12,
+                gap: letters.length > 6 ? 8 : 12,
                 fontFamily: "var(--font-montserrat)",
                 fontWeight: 900,
-                fontSize: "clamp(36px, 8vw, 96px)",
+                fontSize: letters.length > 8
+                  ? "clamp(28px, 5vw, 60px)"
+                  : "clamp(36px, 7vw, 88px)",
                 color: "#fff",
-                letterSpacing: "0.1em",
+                letterSpacing: "0.08em",
                 zIndex: 10,
+                flexWrap: "nowrap",
               }}
               variants={{
-                animate: {
-                  transition: {
-                    staggerChildren: 0.08,
-                  },
-                },
+                animate: { transition: { staggerChildren: 0.045 } },
               }}
               initial="initial"
               animate="animate"
             >
-              {letters.map((char, index) => (
+              {letters.map((char, i) => (
                 <motion.span
-                  key={index}
+                  key={i}
                   variants={{
-                    initial: { opacity: 0, y: 40, scale: 0.9 },
+                    initial: { opacity: 0, y: 28 },
                     animate: {
                       opacity: 1,
                       y: 0,
-                      scale: 1,
-                      transition: { duration: 0.4, ease: "easeOut" },
+                      transition: { duration: 0.22, ease: "easeOut" },
                     },
                   }}
                   style={{ display: "inline-block" }}
@@ -118,15 +123,15 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
               ))}
             </motion.div>
 
-            {/* Subtext */}
+            {/* Brand tag */}
             <motion.p
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.4, transition: { delay: 0.4 } }}
+              animate={{ opacity: 0.35, transition: { delay: 0.18, duration: 0.2 } }}
               style={{
-                marginTop: 24,
+                marginTop: 18,
                 color: "#fff",
-                fontSize: 10,
-                letterSpacing: "0.4em",
+                fontSize: 9,
+                letterSpacing: "0.45em",
                 textTransform: "uppercase",
                 fontFamily: "var(--font-poppins)",
               }}
