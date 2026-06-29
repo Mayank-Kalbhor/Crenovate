@@ -28,9 +28,9 @@ const links = {
 };
 
 const socials = [
-  { Icon: FaLinkedinIn, label: "LinkedIn", color: "#0a66c2" },
-  { Icon: FaInstagram, label: "Instagram", color: "#e1306c" },
-  { Icon: FaFacebookF, label: "Facebook", color: "#1877f2" },
+  { Icon: FaLinkedinIn, label: "LinkedIn", color: "#0a66c2", href: "https://www.linkedin.com/company/crenovateofficial/posts/?feedView=all" },
+  { Icon: FaInstagram, label: "Instagram", color: "#e1306c", href: "https://www.instagram.com/crenovate.official/" },
+  { Icon: FaFacebookF, label: "Facebook", color: "#1877f2", href: "#" },
 ];
 
 export default function Footer() {
@@ -74,7 +74,7 @@ export default function Footer() {
             </p>
             <div style={{ display: "flex", gap: 10 }}>
               {socials.map(s => (
-                <a key={s.label} href="#" aria-label={s.label} data-cursor
+                <a key={s.label} href={s.href} target={s.href !== "#" ? "_blank" : undefined} rel={s.href !== "#" ? "noopener noreferrer" : undefined} aria-label={s.label} data-cursor
                   style={{ width: 38, height: 38, borderRadius: 10, border: "1px solid rgba(255,255,255,0.12)", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,0.45)", textDecoration: "none", fontSize: 14, transition: "all 0.3s" }}
                   onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = s.color + "22"; (e.currentTarget as HTMLElement).style.borderColor = s.color + "55"; (e.currentTarget as HTMLElement).style.color = s.color; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = ""; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.12)"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.45)"; }}>

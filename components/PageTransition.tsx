@@ -31,15 +31,15 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
     setLabel(targetLabel);
     setIsTransitioning(true);
 
-    // Route fires after 550ms — overlay slides in (300ms) + letters appear
+    // Route fires after 380ms — overlay slides in (220ms) + letters appear
     timerRef.current = setTimeout(() => {
       router.push(href);
-    }, 550);
+    }, 380);
   };
 
   useEffect(() => {
     // Small delay so page mounts before overlay slides out — feels instant
-    const t = setTimeout(() => setIsTransitioning(false), 80);
+    const t = setTimeout(() => setIsTransitioning(false), 60);
     return () => clearTimeout(t);
   }, [pathname]);
 
@@ -61,7 +61,7 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "-100%" }}
-            transition={{ duration: 0.32, ease: [0.76, 0, 0.24, 1] }}
+            transition={{ duration: 0.22, ease: [0.76, 0, 0.24, 1] }}
             style={{
               position: "fixed",
               inset: 0,
@@ -100,7 +100,7 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
                 flexWrap: "nowrap",
               }}
               variants={{
-                animate: { transition: { staggerChildren: 0.045 } },
+                animate: { transition: { staggerChildren: 0.03 } },
               }}
               initial="initial"
               animate="animate"
@@ -113,7 +113,7 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
                     animate: {
                       opacity: 1,
                       y: 0,
-                      transition: { duration: 0.22, ease: "easeOut" },
+                      transition: { duration: 0.15, ease: "easeOut" },
                     },
                   }}
                   style={{ display: "inline-block" }}
@@ -126,7 +126,7 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
             {/* Brand tag */}
             <motion.p
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.35, transition: { delay: 0.18, duration: 0.2 } }}
+              animate={{ opacity: 0.35, transition: { delay: 0.12, duration: 0.14 } }}
               style={{
                 marginTop: 18,
                 color: "#fff",

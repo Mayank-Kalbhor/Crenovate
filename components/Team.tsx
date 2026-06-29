@@ -8,34 +8,59 @@ import Image from "next/image";
 
 const team = [
   {
-    name: "Akshay Jain",
+    name: "Akkshay Jain",
     role: "Founder & Director",
     dept: "Leadership",
-    img: "/akshay-jain.png",
+    img: "/akkshay-jain.jpg",
     grad: "linear-gradient(135deg, var(--brand-red), #c0392b)",
     color: "var(--brand-red)",
-    shortBio: "An accomplished & seasoned professional with 15 years of proven success in corporate communications, Public Relations and various other domains.",
-    fullBio: `An accomplished & a seasoned professional with 15 years experience of proven success in corporate communications, Public Relations and various other domains. His deep understanding of the PR discipline has led him to deliver a variety of communication campaigns in a high pressure & fast paced environment across the entire value-chain of B2B and B2C companies.
+    shortBio: "Strategy, PR, Corp Comm, Marketing & Personal Branding Leader with 25+ years experience. Built 2 unicorn-status companies.",
+    fullBio: `Strategy, PR, Corp Comm, Marketing, Events & Personal Branding Leader | 25+ yrs shaping brands & leaders | Helping organisations own their story | Worked across 300+ Tier II–IV cities | Built 2 unicorn-status companies.
 
-He has the ability to design and deliver communication strategies for multiple stakeholder management in alignment with business needs including: Corporate Communications & Positioning, Media strategy, Marketing Communications, Business Intelligence, Employee Communications, Employee Engagement & Branding, and Social Media Tools.
-
-He is Founder of CRENOVATE – An Integrated Communications & PR Agency headquartered in Mumbai with branches in Indore and Raipur. He is also founder of Crafting Careers – A leading recruitment and HR Solutions firm.
-
-His last professional stint was with Multi Commodity Exchange (MCX) as AVP- Corporate Communications. He has also been a renowned sportsman of M.P table tennis team, representing MP in 14 national championships. He loves music, travelling, networking and re-inventing.`,
+We are “CRENOVATE”, an integrated PR, Communications and IM + Artist-Celebrity management company handling activities across Metros, tier II and tier III cities. We believe that we are here to make our presence felt and we are sure to make an impression each time we get our heads together.`
   },
   {
-    name: "Shikha Jain",
-    role: "Director",
+    name: "Shikkha A Jainn",
+    role: "Director & Brand Strategist",
     dept: "Leadership",
     img: "/shikha-jain.png",
     grad: "linear-gradient(135deg, #7c3aed, #8b5cf6)",
     color: "#7c3aed",
-    shortBio: "A Communicator by passion. With more than 11 years experience in Corporate Communications, Media-Relations, Public Affairs, Branding, Advertising and Marketing Communication.",
-    fullBio: `A Communicator by passion. With more than 11 years experience in Corporate Communications, Media-Relations, Public Affairs, Branding, Advertising and Marketing Communication. Years of progressively responsible experience has enabled her to hone this function into a force multiplier to deliver effective, actionable and culturally appropriate communication solutions.
+    shortBio: "Brand strategist and communications leader with two decades of experience across 50+ sectors, shaping 50+ brands across 25+ organisations.",
+    fullBio: `Brand strategist and communications leader with two decades of experience across 50+ sectors, where she has shaped 50+ brands across 25+ organisations.
 
-She has been exposed to diversified verticals like Banking, IT, Logistics, Pharma and Commodity Exchange and worked with reputed brands like TCS, CITI, AFL, NCDEX and Transasia.
+Shikkha is a skilled and driven professional with over 20 years of wide-ranging experience in strategizing and executing communication campaigns in corporate and communication agency environments. Accomplished in collaborating with senior leadership and key stakeholders, she has proven success in storytelling through varied mediums – traditional media, social and digital platforms to achieve business goals. She is adept at working in a matrix environment. She enjoys working with technology, setting up and improving processes, and introducing new and better ways of doing things. Now seeking a leadership role to steer communications as a key enabler in delivering an organisation’s strategy.
 
-Her core strengths lie in building strategic communication frameworks that translate business goals into compelling narratives across stakeholder ecosystems.`,
+Key Strengths:
+• Developing compelling content tailored to channels, stakeholders and target audiences
+• Articulating strategy and complex information into easy-to-understand narratives
+• Leveraging visual branding for attention, recall, and call to action
+• Process improvement and streamlining the operations of communications teams
+• Managing priorities through the complexities of a fast-paced, always-on global environment
+• Coaching-centric people manager
+
+Competencies:
+Articles, Stories & Narratives | Campaign Management | Crisis Communication | Change Management | Employee Engagement | Leadership Messaging | Marketing Communication | Media Interaction | Press Releases | Reputation Management | Social Media Content | Website Content`
+  },
+  {
+    name: "Prateeksha Jain",
+    role: "Manager - Avi Engineering",
+    dept: "Engineering",
+    img: "/prateeksha-jain.png",
+    grad: "linear-gradient(135deg, #3b82f6, #1d4ed8)",
+    color: "#3b82f6",
+    shortBio: "Manager of Avi Engineering, former Computer Science Assistant Professor, and certified digital marketing and language expert.",
+    fullBio: `Prateeksha Jain (She/Her) is the Manager of Avi Engineering at Crenovate. She is a multi-talented professional with a strong technical background and extensive digital operations expertise.
+
+Previously, she served as an Assistant Professor for Computer Science at Kothari College (Nov 2017 - Nov 2018). In addition to her academic and engineering background, she is certified and holds a diploma in the French Language.
+
+Prateeksha holds certifications and brings specialized expertise in:
+• Digital Marketing & Campaign Management
+• Content Creation
+• Meta Ads Strategy
+• Graphic Designing
+• Video Editing & Production
+• Website Development`
   },
   {
     name: "Vishal Jain",
@@ -47,7 +72,7 @@ Her core strengths lie in building strategic communication frameworks that trans
     shortBio: "\"A drop of parent's sweat or a teacher's raised eyebrows; a friend's witty smile or boss' pat on the back — I have come a long way to realize Communication goes beyond words.\"",
     fullBio: `"A drop of parent's sweat or a teacher's raised eyebrows; a friend's witty smile or boss' pat on the back, I have come a long way to realize Communication goes beyond words."
 
-Vishal is a dynamic client servicing professional who bridges the gap between client expectations and creative delivery. He ensures seamless project execution and builds lasting relationships with every brand he works with. His philosophy is rooted in the belief that true communication is experiential — felt, not just heard.`,
+Vishal is a dynamic client servicing professional who bridges the gap between client expectations and creative delivery. He ensures seamless project execution and builds lasting relationships with every brand he works with. His philosophy is rooted in the belief that true communication is experiential — felt, not just heard.`
   },
   {
     name: "Forum Shah",
@@ -59,7 +84,7 @@ Vishal is a dynamic client servicing professional who bridges the gap between cl
     shortBio: "Effervescent and a go-getter, she looks after the marketing and business development section of Crenovate, working on various cost-effective plans and campaigns.",
     fullBio: `Forum Shah looks after the marketing and business development section of Crenovate. Effervescent and a go-getter, she works on various cost-effective plans and campaigns and handles client acquisition, partnership development, and brand outreach strategies.
 
-Her energetic approach to business development has helped Crenovate forge key relationships across industries and expand the agency's reach into new markets and verticals. She brings a client-first mentality paired with sharp commercial acumen.`,
+Her energetic approach to business development has helped Crenovate forge key relationships across industries and expand the agency's reach into new markets and verticals. She brings a client-first mentality paired with sharp commercial acumen.`
   },
   {
     name: "Shrutika Khandelwal",
@@ -71,9 +96,49 @@ Her energetic approach to business development has helped Crenovate forge key re
     shortBio: "A team player whose passion is to change IT trends and technology that enable clients across the globe to add to their bottomline. Her specialization is building online portals.",
     fullBio: `Shrutika is a team player whose passion is to change IT trends and technology that enable clients across the globe to add to their bottomline. Her specialization is building online portals and e-commerce platforms that combine design excellence with performance-driven architecture.
 
-She brings a data-led approach to every digital project, ensuring that the solutions she delivers are not just functional but measurably impactful. Her expertise spans product listing optimization, user journey design, and conversion rate improvement for brands in competitive digital markets.`,
-  },
+She brings a data-led approach to every digital project, ensuring that the solutions she delivers are not just functional but measurably impactful. Her expertise spans product listing optimization, user journey design, and conversion rate improvement for brands in competitive digital markets.`
+  }
 ];
+
+function TeamAvatar({ member, size }: { member: typeof team[0]; size: number }) {
+  const [error, setError] = useState(false);
+  const initials = member.name.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase();
+
+  if (error || !member.img) {
+    return (
+      <div style={{
+        width: size,
+        height: size,
+        borderRadius: 20,
+        background: member.grad,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontWeight: 700,
+        fontSize: size * 0.35,
+        color: "#fff",
+        fontFamily: "var(--font-montserrat)",
+        boxShadow: `0 10px 28px ${member.color}40`,
+        transition: "transform 0.3s"
+      }}>
+        {initials}
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ position: "relative", width: size, height: size, borderRadius: 20, overflow: "hidden", boxShadow: `0 10px 28px ${member.color}40`, transition: "transform 0.3s" }}>
+      <Image 
+        src={member.img} 
+        alt={member.name} 
+        fill 
+        sizes={`${size}px`} 
+        style={{ objectFit: "cover" }} 
+        onError={() => setError(true)}
+      />
+    </div>
+  );
+}
 
 function TeamModal({ member, onClose }: { member: typeof team[0]; onClose: () => void }) {
   return (
@@ -104,11 +169,9 @@ function TeamModal({ member, onClose }: { member: typeof team[0]; onClose: () =>
 
           {/* Header */}
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start", marginBottom: 28 }}>
-            <div style={{ width: 90, height: 90, borderRadius: 20, overflow: "hidden", flexShrink: 0, boxShadow: `0 8px 24px ${member.color}40`, position: "relative" }}>
-              <Image src={member.img} alt={member.name} fill sizes="90px" style={{ objectFit: "cover" }} />
-            </div>
+            <TeamAvatar member={member} size={90} />
             <div>
-              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: member.color, fontFamily: "var(--font-poppins)" }}>{member.dept}</span>
+              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: member.color.includes("var") ? "var(--brand-red)" : member.color, fontFamily: "var(--font-poppins)" }}>{member.dept}</span>
               <h3 style={{ fontFamily: "var(--font-montserrat)", fontWeight: 900, fontSize: 24, color: "#111", margin: "4px 0 4px" }}>{member.name}</h3>
               <p style={{ fontFamily: "var(--font-inter)", fontSize: 14, color: "#6b7280", margin: 0 }}>{member.role}</p>
             </div>
@@ -128,7 +191,7 @@ function TeamModal({ member, onClose }: { member: typeof team[0]; onClose: () =>
             {[FaLinkedinIn, FaTwitter, FaInstagram].map((Icon, idx) => (
               <button key={idx} data-cursor
                 style={{ width: 36, height: 36, borderRadius: 10, border: "1px solid #e5e7eb", background: "none", cursor: "none", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, color: "#6b7280", transition: "all 0.2s" }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = member.color; (e.currentTarget as HTMLElement).style.color = "#fff"; (e.currentTarget as HTMLElement).style.borderColor = member.color; }}
+                onMouseEnter={e => { const clr = member.color.includes("var") ? "var(--brand-red)" : member.color; (e.currentTarget as HTMLElement).style.background = clr; (e.currentTarget as HTMLElement).style.color = "#fff"; (e.currentTarget as HTMLElement).style.borderColor = clr; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "none"; (e.currentTarget as HTMLElement).style.color = "#6b7280"; (e.currentTarget as HTMLElement).style.borderColor = "#e5e7eb"; }}>
                 <Icon />
               </button>
@@ -156,10 +219,12 @@ function TeamCard({ m, i }: { m: typeof team[0]; i: number }) {
         <div style={{ height: 4, width: "100%", background: m.grad }} />
         <div style={{ padding: 32 }}>
           {/* Photo */}
-          <div style={{ position: "relative", width: 80, height: 80, borderRadius: 20, overflow: "hidden", marginBottom: 20, boxShadow: `0 10px 28px ${m.color}40`, transition: "transform 0.3s" }}
+          <div 
+            style={{ marginBottom: 20, transition: "transform 0.3s", width: "fit-content" }}
             onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.07)")}
-            onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}>
-            <Image src={m.img} alt={m.name} fill sizes="80px" style={{ objectFit: "cover" }} />
+            onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
+          >
+            <TeamAvatar member={m} size={80} />
           </div>
 
           <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: m.color.includes("var") ? "var(--brand-red)" : m.color, fontFamily: "var(--font-poppins)", marginBottom: 4 }}>{m.dept}</div>

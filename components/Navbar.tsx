@@ -43,12 +43,12 @@ export default function Navbar() {
           {/* Logo */}
           <a href="/" onClick={(e) => { e.preventDefault(); setMenuOpen(false); navigate("/", "Home"); }}
             style={{ textDecoration: "none", display: "flex", alignItems: "center" }} data-cursor>
-            <div style={{ position: "relative", height: 44, width: 148 }}>
+            <div style={{ position: "relative", height: 52, width: 175 }}>
               <Image
                 src="/logo.jpg"
                 alt="CRENOVATE – Ideas at Work"
                 fill
-                sizes="148px"
+                sizes="175px"
                 style={{ objectFit: "contain", objectPosition: "left center", borderRadius: 6 }}
                 priority
               />

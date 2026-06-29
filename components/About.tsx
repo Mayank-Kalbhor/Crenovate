@@ -146,6 +146,7 @@ export default function About() {
                     </h3>
                   </motion.div>
                 </AnimatePresence>
+              </div>
             </div>
 
             {/* Location strip */}
